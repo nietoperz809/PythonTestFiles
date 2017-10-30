@@ -5,7 +5,11 @@ import time
 
 
 class MyHTMLParser(HTMLParser):
+    def error(self, message):
+        print("Error: "+message)
+
     hit = False
+    temp_list = []
 
     # def handle_starttag(self, tag, attrs):
     # print("Encountered a start tag:", tag, " - ", attrs)
@@ -23,10 +27,11 @@ class MyHTMLParser(HTMLParser):
         if self.hit:
             if data.startswith('<!--//<![CDATA'):
                 self.hit = False
-                print ("------------------------------------")
+                print(self.temp_list)
+                print(len(self.temp_list))
+                self.temp_list.clear()
                 return
-            print(data)
-            # self.hit = False
+            self.temp_list.append(data)
 
 
 def load_and_show():
